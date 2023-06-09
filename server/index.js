@@ -3,7 +3,7 @@ const server = require("./src/server");
 const { conn,Country } = require('./src/db.js');
 const PORT = 3001;
 
-conn.sync({ force: true }).then(() => {
+conn.sync({ alter: true }).then(() => {
 server.listen(PORT, async () => {
   const dbCon =  Country.findAll()
   if(!dbCon.length){
@@ -15,7 +15,7 @@ server.listen(PORT, async () => {
         nombre: pais.name.common,
         imagen_bandera: pais.flags.svg,
         continente: pais.continents[0],
-        capital: pais.capital? pais.capital[0] : "Not Found",
+        capital: pais.capital? pais.capital.join("-") : "Not Found",
         subregion: pais.subregion? pais.subregion : "Not Found",
         area: pais.area,
         poblacion: pais.population 
